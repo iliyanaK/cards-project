@@ -1,7 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
+import Tasks from "../src/components/Tasks";
+import Cards from "../src/components/Cards";
 import "normalize.css";
 import "./index.css";
 
@@ -13,7 +16,11 @@ const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <Route exact path="/" component={App} />
+      <Route path="/cards/:id" component={Tasks} />
+      <Route path="/cards/:id" component={Cards} />
+    </Router>
   </Provider>,
   document.getElementById("root")
 );
