@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import queryString from "query-string";
 
-const getLabel = card => {
+import { getCards } from "../../redux/action";
+import Loading from '../Loading';
+import './Cards.scss';
+
+const getLabel = (card) => {
   var suite = "";
 
   if (card.suit === "HEARTS") {
@@ -16,12 +22,42 @@ const getLabel = card => {
   return `${card.value} of ${suite}`;
 };
 
-export default ({ cards }) => (
-  <ul className="cards mw8-ns">
-    {cards.map(card => (
-      <li>
-        <img src={card.image} alt={getLabel(card)} />
-      </li>
-    ))}
-  </ul>
-);
+const Cards = ({
+  cards,
+  getCards,
+  match: {
+    params: { id },
+  },
+  location: { search },
+  errorMessage,
+}) => {
+  const { count } = queryString.parse(search);
+  console.log(id)
+  useEffect(() => {
+    getCards(id, count);
+  }, [id, getCards, count]);
+
+  if (!cards) return <div className="mt5"><Loading /></div>;
+
+  if (errorMessage) return <div className="error">{errorMessage}</div>;
+
+  return (
+    <div className="flex justify-center">
+      <ul className="cards mw8-ns">
+        {cards.map((card) => (
+          <li key={card.code}>
+            <img src={card.image} alt={getLabel(card)} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const mapStateToProps = ({ cards, loading, errorMessage }) => ({
+  cards,
+  loading,
+  errorMessage,
+});
+
+export default connect(mapStateToProps, { getCards })(Cards);
