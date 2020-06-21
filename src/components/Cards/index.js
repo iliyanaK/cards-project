@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import queryString from "query-string";
 
 import { getCards } from "../../redux/action";
-import Loading from '../Loading';
-import './Cards.scss';
+import Loading from "../Loading";
+import "./Cards.scss";
 
 const getLabel = (card) => {
   var suite = "";
@@ -32,12 +32,17 @@ const Cards = ({
   errorMessage,
 }) => {
   const { count } = queryString.parse(search);
-  console.log(id)
+
   useEffect(() => {
     getCards(id, count);
   }, [id, getCards, count]);
 
-  if (!cards) return <div className="mt5"><Loading /></div>;
+  if (!cards)
+    return (
+      <div className="mt5">
+        <Loading />
+      </div>
+    );
 
   if (errorMessage) return <div className="error">{errorMessage}</div>;
 

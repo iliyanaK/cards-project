@@ -30,7 +30,7 @@ class Tasks extends React.Component {
             <button
               onClick={() => this.sumDeck()}
               className="bg-animate bg-dark-blue inline-flex items-center ma2 tc bw0 white b pa2 dim"
-              disabled={this.props.loading || this.props.error}
+              disabled={this.props.loading || this.props.errorMessage}
             >
               Sum Black Cards
             </button>
@@ -52,7 +52,7 @@ class Tasks extends React.Component {
             <button
               onClick={() => this.sortDeck()}
               className="bg-animate bg-dark-blue inline-flex items-center ma2 tc bw0 white b pa2 dim"
-              disabled={this.props.loading || this.props.error}
+              disabled={this.props.loading || this.props.errorMessage}
             >
               Sort Cards
             </button>
@@ -63,10 +63,10 @@ class Tasks extends React.Component {
   }
 }
 
-const mapPropsToState = ({ sum, loading, error }) => ({
+const mapPropsToState = ({ sum, loading, errorMessage }) => ({
   sum,
   loading,
-  error,
+  errorMessage,
 });
 
 export default connect(mapPropsToState, { sortDeck, sumDeck })(Tasks);
